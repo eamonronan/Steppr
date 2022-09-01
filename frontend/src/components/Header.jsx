@@ -16,12 +16,18 @@ function Header() {
 
     return (
         <header className='header'>
-            
-                <Link to='/'> <FaRunning /> Steppr
-                </Link>
+
+            <Link to='/'> <FaRunning /> Steppr
+            </Link>
             <ul>
                 {user ? (
                     <>
+                        <li>
+                            <Link to='/rosadaily'>
+                                <FaGrinAlt /> Rosa Daily
+                            </Link>
+
+                        </li>
                         <li>
                             <Link to='/rosa'>
                                 <FaGrinAlt /> Rosa

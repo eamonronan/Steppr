@@ -18,6 +18,15 @@ const userSchema = mongoose.Schema({
         type: String, 
         required: [true, 'Please add a password']
     }, 
+    stepGoal: {
+        type: String,
+    }, 
+    userPrimaryGoal: {
+        type: String,
+    }, 
+    userSecondaryGoal: {
+        type: String,
+    }
     /*  userRole: {
         type: String,
         required: [true, 'Please select a user type -- either trainer or user.']

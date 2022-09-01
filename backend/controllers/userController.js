@@ -22,7 +22,7 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists');
     }
 
-    // Password hasing
+    // Password hashing
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -86,6 +86,9 @@ const generateToken = (id) => {
         expiresIn: '14d',
     })
 }
+
+// set user step count goal
+//const setStepGoal =  
 
 module.exports = {
     registerUser,

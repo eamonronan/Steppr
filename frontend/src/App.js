@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Rosa from './components/Rosa';
+import RosaDaily from './components/RosaDaily';
 import Resources from './pages/Resources';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path='/login' element={<Login />}/>
             <Route path='/register' element={<Register />}/>
             <Route path='/rosa' element={<Rosa/>}/>
+            <Route path='/rosadaily' element={<RosaDaily />}/>
             <Route path='/resources' element={<Resources/>}/>
           
           </Routes>
