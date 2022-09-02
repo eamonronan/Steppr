@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Delayed from './Delayed';
 import WelcomeBack from './RosaMessages/WelcomeBack';
 import RandomElement from './RandomElement';
+import DailyStepsMessage from './RosaMessages/DailyStepsMessage';
 import FeelingTodayMessage from './RosaMessages/FeelingTodayMesage';
 import UserResponseButton from './UserResponses/UserResponseButton';
 import PositiveAndGoalSet from './RosaMessages/PositiveAndGoalSet';
@@ -31,25 +32,25 @@ function RosaDaily() {
 
     const [rosaMessage, setRosaMessage] = useState(<WelcomeBack name={user.name} />);
 
+   
+
     const handleUserEmotion = (userEmotion) => {
-        if (userEmotion == "fantastic") {
-            setRosaMessage(<div>I love to hear that!</div>);
+        if (userEmotion === "fantastic") {
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />);
             setRosaImage(RandomElement(FantasticRosa));
-
+            
         } else if (userEmotion == "good") {
-            setRosaMessage(<div>It's good to be good, right?</div>)
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />)
             setRosaImage(RandomElement(GoodRosa));
-
         } else if (userEmotion == "not so good") {
-            setRosaMessage(<div>I'm sorry to hear that.</div>)
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />)
             setRosaImage(RandomElement(NotSoGoodRosa));
-
         } else if (userEmotion == "terrible") {
-            setRosaMessage(<div>Oh no! My apologies. Sorry that you are not feeling well.</div>);
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />);
             setRosaImage(RandomElement(TerribleRosa));
-
         } else {
-
+            setRosaMessage(<DailyStepsMessage />)
+            setRosaImage(RandomElement(welcomeRosa));
         }
     }
 
@@ -98,9 +99,9 @@ function RosaDaily() {
 
 
     const [userOptions, setUserOptions] = useState(<div><UserResponseButton textInput="Fantastic!" onClick={() => handleUserEmotion("fantastic")} />
-        <UserResponseButton textInput="Good." onClick={() => handleUserEmotion("good")}/>
+        <UserResponseButton textInput="Good." onClick={() => handleUserEmotion("good")} />
         <UserResponseButton textInput="Not so good today." onClick={() => handleUserEmotion("not so good")} />
-        <UserResponseButton textInput="Terrible." onClick={()=> handleUserEmotion("terrible")} /></div>)
+        <UserResponseButton textInput="Terrible." onClick={() => handleUserEmotion("terrible")} /></div>)
 
 
 
