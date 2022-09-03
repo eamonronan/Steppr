@@ -213,24 +213,37 @@ h3 {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
-  text-align: center;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
 
 }
 
 .rosaItem {
-  border: grey 1px solid;
-  align-items:center;
-  justify-items: center;
+  border: grey 2px solid;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
   
 
 }
 
 .rosaText {
-  align-items:center;
-  justify-items: center;
-  
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.rosaMessage {
+  background: rgb(0, 0, 0);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 10px;
+
+
 }
 
 .parent{

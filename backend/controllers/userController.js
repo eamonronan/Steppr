@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const Conversation = require('../models/conversationModel');
+const { restart } = require('nodemon');
 
 // @description     register new user
 //@route            POST /api/users
@@ -16,8 +18,8 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // Check if user is already registered
-    const userExists = await User.findOne({email});
-    if(userExists) {
+    const userExists = await User.findOne({ email });
+    if (userExists) {
         res.status(400);
         throw new Error('User already exists');
     }
@@ -28,18 +30,21 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Creating the user
     const user = await User.create({
-        firstName, 
-        lastName, 
-        email, 
+        firstName,
+        lastName,
+        email,
         password: hashedPassword,
+        stepGoal: '',
+        userPrimaryGoal: '',
+        userSecondaryGoal: '',
     })
 
     if (user) {
         res.status(201).json({
-            _id: user.id, 
-            name: user.firstName, 
-            email: user.email, 
-            token: generateToken(user._id), 
+            _id: user.id,
+            name: user.firstName,
+            email: user.email,
+            token: generateToken(user._id),
             //userRole: user.userRole,
         })
     } else {
@@ -53,16 +58,16 @@ const registerUser = asyncHandler(async (req, res) => {
 //@access           public
 
 const loginUser = asyncHandler(async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     // Checking for user email
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
-            _id: user.id, 
-            name: user.firstName, 
+            _id: user.id,
+            name: user.firstName,
             email: user.email,
-            token: generateToken(user._id), 
+            token: generateToken(user._id),
             //userRole: user.userRole,
         })
     } else {
@@ -87,11 +92,84 @@ const generateToken = (id) => {
     })
 }
 
-// set user step count goal
-//const setStepGoal =  
+
+// update user to add step count goal
+// PUT api/users/:id
+// private
+
+const updateStepCount = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    if (!user) {
+        res.status(400);
+        throw new Error('Sorry, user not found!');
+    } else {
+        const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+            new: true
+        })
+        res.status(200).json(updatedUser);
+    }
+})
+
+
+
+
+// update user to add primary and secondary userGoals
+// PUT api/users/:id
+// private
+
+const updateUserGoals = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    if (!user) {
+        res.status(400);
+        throw new Error('Sorry, user not found!');
+    } else {
+        const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+            new: true
+        })
+        res.status(200).json.apply(updatedUser);
+    }
+})
+
+// create user conversation
+// POST api/users/conversations/:id
+// private
+
+const createUserConversation = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    const { feeling, stepCount, primaryGoalRating, secondaryGoalRating } = req.body;
+
+    if (!feeling || !stepCount || !primaryGoalRating || !secondaryGoalRating) {
+        res.status(400);
+        throw new Error('Sorry, user must input all areas of conversation with Rosa.');
+    }
+
+    const conversation = await Conversation.create({
+        user, 
+        feeling, 
+        stepCount,
+        primaryGoalRating, 
+        secondaryGoalRating
+    })
+
+    if (conversation) {
+        res.status(201).json({
+            message: "conversation added successfully"
+        })
+    }
+
+})
 
 module.exports = {
     registerUser,
-    loginUser, 
-    getMe
+    loginUser,
+    getMe,
+    updateStepCount, 
+    updateUserGoals, 
+    createUserConversation
 }

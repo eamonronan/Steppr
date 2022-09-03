@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
         required: [true, 'Please add a password']
     }, 
     stepGoal: {
-        type: String,
+        type: Number,
     }, 
     userPrimaryGoal: {
         type: String,

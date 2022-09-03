@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateStepCount, updateUserGoals } from '../features/auth/authSlice';
 
 import Delayed from './Delayed';
 import WelcomeMessage from './RosaMessages/WelcomeMessage';
@@ -17,7 +18,14 @@ function Rosa() {
 
   const [rosaImage, setRosaImage] = useState([]);
 
+  let userSteps = "";
+  let userPrimary = "";
+  let userSecondary = "";
+
+  const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.auth);
+ 
 
   const [rosaMessage, setRosaMessage] = useState(<WelcomeMessage name={user.name} />);
 
@@ -45,6 +53,8 @@ function Rosa() {
   }
 
   const handleSecondaryGoal = (userSecondaryGoal) => {
+    userSecondary = userSecondaryGoal;
+    dispatch(updateUserGoals( {...user, userPrimaryGoal: userPrimary, userSecondaryGoal: userSecondary} ));
     console.log('Handle secondary goal clicked');
     setRosaMessage(<div>Fantastic! Your secondary user goal is to <b>{userSecondaryGoal}</b>. Together, {user.name}, we can achieve these goals. Would you like to hear more about how Steppr works?</div>);
     setUserOptions(<div><UserResponseButton textInput="Yes" onClick={()=>handleYesOrNo(true)} />
@@ -52,6 +62,7 @@ function Rosa() {
   }
 
   const handlePrimaryGoal = (userPrimaryGoal) => {
+    userPrimary = userPrimaryGoal;
     setRosaMessage(<div>Noted! I will remember that your primary goal, after increasing overall step count, is to <b>{userPrimaryGoal}</b>. Next, let's select your second goal from the same list.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handleSecondaryGoal("improve strength")} />
       <UserResponseButton textInput="Increase flexibility" onClick={() => handleSecondaryGoal("increase flexibility")} />
@@ -75,6 +86,10 @@ function Rosa() {
 
   const handleSteps = (textInput) => {
     console.log('Steps clicked');
+    console.log(textInput);
+    userSteps = textInput;
+    console.log(userSteps);
+    dispatch(updateStepCount( {...user, stepGoal: userSteps} ));
     setRosaMessage(<div>{textInput} steps! Wow. I love the ambition. Next, we can decide on some secondary goals too. Along with your daily step count, you can set two other goals related to your health and fitness. Then, each day you can rate the progress you've made toward these goals. Select the first one from the choices on the right.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handlePrimaryGoal("improve strength")} />
       <UserResponseButton textInput="Increase flexibility" onClick= {() => handlePrimaryGoal("increase flexibility")} />
@@ -93,11 +108,14 @@ function Rosa() {
     <div className='rosaContainer'>
       <div className='rosaItem'>
         <img src={randomRosa} alt="Rosa expression" />
+        <div className='rosaMessage'>
         {rosaMessage}
+        </div>
+        
 
       </div>
-      <div className='rosaItem' style={{ padding: '10px 0px 0px 0px' }}>
-        <div className='rosaText' style={{ padding: '10px' }}>
+      <div className='rosaItem'>
+        <div className='rosaText'>
           <Delayed>
             {userOptions}
           </Delayed>

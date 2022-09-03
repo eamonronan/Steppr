@@ -44,7 +44,7 @@ const updateWorkout = asyncHandler(async (req, res) => {
     }
 
 
-    if (goal.user.toString() !== req.user.id) {
+    if (workout.user.toString() !== req.user.id) {
         res.status(401);
         throw new Error('User not authorized.');
     }
