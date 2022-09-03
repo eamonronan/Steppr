@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
-const Conversation = require('../models/conversationModel');
 const { restart } = require('nodemon');
 
 // @description     register new user
@@ -134,42 +133,10 @@ const updateUserGoals = asyncHandler(async (req, res) => {
     }
 })
 
-// create user conversation
-// POST api/users/conversations/:id
-// private
-
-const createUserConversation = asyncHandler(async (req, res) => {
-    let id = req.params.id;
-    const user = await User.findById(id);
-
-    const { feeling, stepCount, primaryGoalRating, secondaryGoalRating } = req.body;
-
-    if (!feeling || !stepCount || !primaryGoalRating || !secondaryGoalRating) {
-        res.status(400);
-        throw new Error('Sorry, user must input all areas of conversation with Rosa.');
-    }
-
-    const conversation = await Conversation.create({
-        user, 
-        feeling, 
-        stepCount,
-        primaryGoalRating, 
-        secondaryGoalRating
-    })
-
-    if (conversation) {
-        res.status(201).json({
-            message: "conversation added successfully"
-        })
-    }
-
-})
-
 module.exports = {
     registerUser,
     loginUser,
     getMe,
     updateStepCount, 
     updateUserGoals, 
-    createUserConversation
 }

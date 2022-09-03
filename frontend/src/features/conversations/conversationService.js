@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const API_URL = '/api/conversations/';
 
 
@@ -9,8 +10,11 @@ const createUserConversation = async (conversationData, token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.post(API_URL, conversationData, config);
 
+    console.log(API_URL);
+    console.log(conversationData);
+    console.log(config);
+    const response = await axios.post(API_URL, conversationData, config);
     return response.data;
 }
 
@@ -19,4 +23,4 @@ const conversationService = {
     createUserConversation,
 }
 
-export default conversationService;
+export default conversationService; 

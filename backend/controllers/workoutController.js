@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 
 const Workout = require('../models/workoutModel');
 const User = require('../models/userModel');
+const Conversation = require('../models/conversationModel');
 
 // get workouts
 // GET api/workouts
@@ -80,9 +81,10 @@ const deleteWorkout = asyncHandler(async (req, res) => {
     res.status(200).json({ id: req.params.id });
 })
 
+
 module.exports = { 
     getWorkouts,
     setWorkout,
     updateWorkout,
-    deleteWorkout
+    deleteWorkout, 
 }

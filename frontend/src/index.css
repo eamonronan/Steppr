@@ -184,6 +184,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 300px;
 }
 
 .loadingSpinnerContainer {
@@ -225,7 +226,7 @@ h3 {
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  
+ 
 
 }
 
@@ -239,9 +240,12 @@ h3 {
   background: rgb(0, 0, 0);
   color: #fff;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   border-radius: 20px;
   padding: 10px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
 
 
 }

@@ -9,6 +9,11 @@ const createWorkout = async (workoutData, token) => {
             Authorization: `Bearer ${token}`,
         },
     }
+
+    console.log(API_URL);
+    console.log(workoutData);
+    console.log(config);
+
     const response = await axios.post(API_URL, workoutData, config);
 
     return response.data;
@@ -40,7 +45,7 @@ const deleteWorkout = async (workoutId, token) => {
 const workoutService = {
     createWorkout,
     getWorkouts,
-    deleteWorkout,
+    deleteWorkout
 }
 
 export default workoutService

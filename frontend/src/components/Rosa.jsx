@@ -25,10 +25,8 @@ function Rosa() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
- 
-
   const [rosaMessage, setRosaMessage] = useState(<WelcomeMessage name={user.name} />);
-
+  
   const handleClick = () => {
     console.log('Good clicked');
     setRosaMessage(<PositiveAndGoalSet />);
@@ -36,7 +34,8 @@ function Rosa() {
       <div><UserResponseButton textInput="10,000" onClick={() => handleSteps(10000)} />
         <UserResponseButton textInput="8,000" onClick={() => handleSteps(8000)} />
         <UserResponseButton textInput="6,000" onClick={() => handleSteps(6000)} />
-        <UserResponseButton textInput="4,000" onClick={() => handleSteps(4000)} /></div>)
+        <UserResponseButton textInput="4,000" onClick={() => handleSteps(4000)} />
+        <UserResponseButton textInput="2,000" onClick={() => handleSteps(2000)}/></div>)
 
   }
 
@@ -75,7 +74,9 @@ function Rosa() {
   }
 
 
-  const [userOptions, setUserOptions] = useState(<div><UserResponseButton textInput="Good!" onClick={handleClick} />
+  const [userOptions, setUserOptions] = useState(<div>
+    <UserResponseButton textInput="Fantastic!" onClick={handleClick} />
+    <UserResponseButton textInput="Good." onClick={handleClick} />
     <UserResponseButton textInput="Not so good today." onClick={() => alert("Hello!")} />
     <UserResponseButton textInput="Terrible." onClick={() => alert("Hello!")} /></div>)
 
