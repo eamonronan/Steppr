@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { createUserConversation } from '../'
 
 import Delayed from './Delayed';
 import WelcomeBack from './RosaMessages/WelcomeBack';
@@ -22,6 +23,14 @@ import hello_sunshine from '../rosaimages/hello_sunshine_rosa.PNG';
 
 function RosaDaily() {
 
+    let userFeeling = "";
+    let stepCount = 0;
+    let primaryGoalRating = 0;
+    let secondaryGoalRating = 0;
+
+
+    const dispatch = useDispatch();
+
     const welcomeRosa = [neutral_Rosa, hi_rosa, hi_rosa2, hello_sunshine];
 
     const randomRosa = RandomElement(welcomeRosa);
@@ -31,14 +40,18 @@ function RosaDaily() {
     const { user } = useSelector((state) => state.auth);
 
     const [rosaMessage, setRosaMessage] = useState(<WelcomeBack name={user.name} />);
+    const [conversationData, setConversationData] = useState({user, feeling: 'fantastic', stepCount: 0, primaryGoalRating: 0, secondaryGoalRating: 0});
 
-   
+
+
 
     const handleUserEmotion = (userEmotion) => {
+        console.log(conversationData);
+        userFeeling = userEmotion;
+        console.log(userFeeling);
         if (userEmotion === "fantastic") {
             setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />);
             setRosaImage(RandomElement(FantasticRosa));
-            
         } else if (userEmotion == "good") {
             setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />)
             setRosaImage(RandomElement(GoodRosa));
@@ -52,19 +65,14 @@ function RosaDaily() {
             setRosaMessage(<DailyStepsMessage />)
             setRosaImage(RandomElement(welcomeRosa));
         }
+        setUserOptions(
+            <div><UserResponseButton textInput="10,000" onClick={() => handleSteps(10000)} />
+              <UserResponseButton textInput="8,000" onClick={() => handleSteps(8000)} />
+              <UserResponseButton textInput="6,000" onClick={() => handleSteps(6000)} />
+              <UserResponseButton textInput="4,000" onClick={() => handleSteps(4000)} /></div>)
+
     }
 
-
-    /* const handleClick = () => {
-      console.log('Good clicked');
-      setRosaMessage(<PositiveAndGoalSet />);
-      setUserOptions(
-        <div><UserResponseButton textInput="10,000" onClick={() => handleSteps(10000)} />
-          <UserResponseButton textInput="8,000" onClick={() => handleSteps(8000)} />
-          <UserResponseButton textInput="6,000" onClick={() => handleSteps(6000)} />
-          <UserResponseButton textInput="4,000" onClick={() => handleSteps(4000)} /></div>)
-  
-    } */
 
     const handleYesOrNo = (userYesOrNo) => {
         if (userYesOrNo) {
@@ -79,13 +87,17 @@ function RosaDaily() {
     }
 
     const handleSecondaryGoal = (userSecondaryGoal) => {
-        console.log('Handle secondary goal clicked');
+        secondaryGoalRating = 3;
+        /* setConversationData( {user: user, userFeeling: "fantastic", stepCount: 11111, primaryGoalRating: 4, secondaryGoalRating: 5} ) */
+        dispatch(createUserConversation( {conversationData} ));
         setRosaMessage(<div>Fantastic! Your secondary user goal is to <b>{userSecondaryGoal}</b>. Together, {user.name}, we can achieve these goals. Would you like to hear more about how Steppr works?</div>);
         setUserOptions(<div><UserResponseButton textInput="Yes" onClick={() => handleYesOrNo(true)} />
             <UserResponseButton textInput="No" onClick={() => handleYesOrNo(false)} /></div>)
     }
 
     const handlePrimaryGoal = (userPrimaryGoal) => {
+        primaryGoalRating = 2;
+        console.log(primaryGoalRating);
         setRosaMessage(<div>Noted! I will remember that your primary goal, after increasing overall step count, is to <b>{userPrimaryGoal}</b>. Next, let's select your second goal from the same list.</div>);
         setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handleSecondaryGoal("improve strength")} />
             <UserResponseButton textInput="Increase flexibility" onClick={() => handleSecondaryGoal("increase flexibility")} />
@@ -105,8 +117,9 @@ function RosaDaily() {
 
 
 
-    /* const handleSteps = (textInput) => {
-      console.log('Steps clicked');
+    const handleSteps = (textInput) => {
+      stepCount = textInput;  
+      console.log(stepCount);
       setRosaMessage(<div>{textInput} steps! Wow. I love the ambition. Next, we can decide on some secondary goals too. Along with your daily step count, you can set two other goals related to your health and fitness. Then, each day you can rate the progress you've made toward these goals. Select the first one from the choices on the right.</div>);
       setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handlePrimaryGoal("improve strength")} />
         <UserResponseButton textInput="Increase flexibility" onClick= {() => handlePrimaryGoal("increase flexibility")} />
@@ -116,7 +129,7 @@ function RosaDaily() {
         <UserResponseButton textInput="Build a stronger core" onClick={() => handlePrimaryGoal("build a stronger core")} />
       </div>
       )
-    } */
+    } 
 
 
 
@@ -125,16 +138,15 @@ function RosaDaily() {
         <div className='rosaContainer'>
             <div className='rosaItem'>
                 <img src={rosaImage} alt="Rosa expression" />
-                {rosaMessage}
+                <div className='rosaMessage'>
+                    {rosaMessage}
+                </div>
 
             </div>
-            <div className='rosaItem' style={{ padding: '10px 0px 0px 0px' }}>
-                <div className='rosaText' style={{ padding: '10px' }}>
+            <div className='rosaItem'>
                     <Delayed>
                         {userOptions}
                     </Delayed>
-
-                </div>
             </div>
         </div>
     )
