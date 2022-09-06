@@ -1,4 +1,4 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser, FaGrinAlt, FaBook, FaRunning } from 'react-icons/fa'
+import { FaSignInAlt, FaSignOutAlt, FaUser, FaGrinAlt, FaBook, FaRunning, FaBullseye } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../features/auth/authSlice'
@@ -37,6 +37,11 @@ function Header() {
                         <li>
                             <Link to='/resources'>
                                 <FaBook /> Resources
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/usergoalinfo'>
+                                <FaBullseye /> Goals
                             </Link>
                         </li>
 

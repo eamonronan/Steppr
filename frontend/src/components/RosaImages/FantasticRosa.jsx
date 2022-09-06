@@ -11,4 +11,4 @@ const FantasticRosa =
     dance_rosa, 
     party_rosa]
 
-export default FantasticRosa
+export default FantasticRosa;

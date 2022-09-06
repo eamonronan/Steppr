@@ -18,9 +18,22 @@ const createUserConversation = async (conversationData, token) => {
     return response.data;
 }
 
+// get user conversations with Rosa
+const getUserConversations = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.get(API_URL, config);
+
+    return response.data;
+}
+
 
 const conversationService = {
     createUserConversation,
+    getUserConversations
 }
 
 export default conversationService; 

@@ -20,6 +20,17 @@ export const createUserConversation = createAsyncThunk('conversations/create', a
     }
 }) 
 
+// fetch user conversations
+export const getConversations= createAsyncThunk('conversations/getAll', async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await conversationService.getUserConversations(token);
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+})
+
 export const conversationSlice = createSlice({
     name: 'conversation',
     initialState,
@@ -38,6 +49,19 @@ export const conversationSlice = createSlice({
                 state.conversations.push(action.payload);
             })
             .addCase(createUserConversation.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getConversations.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getConversations.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true; 
+                state.conversations = action.payload;
+            })
+            .addCase(getConversations.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

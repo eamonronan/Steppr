@@ -9,6 +9,7 @@ import Rosa from './components/Rosa';
 import RosaDaily from './components/RosaDaily';
 import Resources from './pages/Resources';
 import AdminDashboard from './components/admin/Dashboard';
+import UserGoalInformation from './components/UserGoalInformation';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path='/rosa' element={<Rosa/>}/>
             <Route path='/rosadaily' element={<RosaDaily />}/>
             <Route path='/resources' element={<Resources/>}/>
+            <Route path='/usergoalinfo' element={<UserGoalInformation/>}/>
           
           </Routes>
         </div>

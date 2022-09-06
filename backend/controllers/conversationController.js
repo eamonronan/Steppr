@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const { rawListeners } = require('../models/conversationModel');
 const Conversation = require('../models/conversationModel');
 const User = require('../models/userModel');
 
@@ -23,6 +24,23 @@ const createUserConversation = asyncHandler(async (req, res) => {
     res.status(200).json(conversation);
 })
 
+// get user conversations
+// GET api/conversations
+//private 
+
+const getUserConversations = asyncHandler(async (req, res) => {
+    const user = req.user.id;
+    if(!req.body) {
+        res.status(400)
+        throw new Error('Cannot find user!');
+    }
+
+    const conversations = await Conversation.find({ user: req.user.id });
+    res.status(200).json(conversations);
+
+})
+
 module.exports = {
     createUserConversation,
+    getUserConversations,
 } 

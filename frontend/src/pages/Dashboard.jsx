@@ -48,7 +48,7 @@ function Dashboard() {
       {workouts.length > 0 ? (
         <div className="workouts">
           {workouts.map((workout) => (
-            <WorkoutItem key={workout._id} workout={workout} />
+            <WorkoutItem key={workout._id} id={workout._id} workout={workout} />
           ))}
 
         </div>

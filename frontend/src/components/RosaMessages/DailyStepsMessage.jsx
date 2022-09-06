@@ -7,6 +7,8 @@ function DailyStepsMessage( {dailyEmotion, stepGoal} ) {
     const checkDailyEmotion = () => {
          if (dailyEmotion == 'fantastic') {
             rosaStepMessage="That's wonderful to hear! Very happy you're doing well. I'm not so bad myself. Now, how is the exercise coming along? Your daily step goal is " + stepGoal + " steps. How many steps did you reach today?";
+        } else if (dailyEmotion == 'excellent') {
+            rosaStepMessage="Excellent to hear! Thrilled to learn that you are thriving. I can't complain much myself. Now, how is the exercise going? Your daily step goal is " + stepGoal + " steps. How many did you take today?";
         } else if (dailyEmotion == 'good') {
             rosaStepMessage ="It's good to be good, right? I'm not too shabby myself. How are the fitness goals going? Your daily step goal is " + stepGoal + " steps. Want to tell me how many steps you did today?";
         } else if (dailyEmotion == 'not so good') {
