@@ -203,6 +203,19 @@ const getStepCount = asyncHandler(async (req, res) => {
     res.status(200).json(userStepCount);
 })
 
+const getAllUsers = asyncHandler(async (req, res) => {
+
+    User.find({}, (err, users) => {
+        var userMap = {};
+    
+        users.forEach(function(user) {
+          userMap[user._id] = user;
+        })
+    
+        res.send(userMap);  
+      });
+})
+
 
 module.exports = {
     isAdmin,
@@ -213,5 +226,6 @@ module.exports = {
     updateUserGoals, 
     getPrimaryGoal, 
     getSecondaryGoal, 
-    getStepCount
+    getStepCount, 
+    getAllUsers
 }

@@ -57,9 +57,9 @@ function RosaDaily() {
     });
 
     const [userOptions, setUserOptions] = useState(<div><UserResponseButton textInput="Fantastic!" onClick={() => handleUserEmotion("fantastic", userStepGoal)} />
-        <UserResponseButton textInput="Good." onClick={() => handleUserEmotion("good")} />
-        <UserResponseButton textInput="Not so good today." onClick={() => handleUserEmotion("not so good")} />
-        <UserResponseButton textInput="Terrible." onClick={() => handleUserEmotion("terrible")} /></div>)
+        <UserResponseButton textInput="Good." onClick={() => handleUserEmotion("good", userStepGoal)} />
+        <UserResponseButton textInput="Not so good today." onClick={() => handleUserEmotion("not so good", userStepGoal)} />
+        <UserResponseButton textInput="Terrible." onClick={() => handleUserEmotion("terrible", userStepGoal)} /></div>)
 
     
 
@@ -77,16 +77,16 @@ function RosaDaily() {
             setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} stepGoal={userStepGoal}/>);
             setRosaImage(RandomElement(FantasticRosa));
         } else if (userEmotion == "good") {
-            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />)
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} stepGoal={userStepGoal} />)
             setRosaImage(RandomElement(GoodRosa));
         } else if (userEmotion == "not so good") {
-            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />)
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} stepGoal={userStepGoal} />)
             setRosaImage(RandomElement(NotSoGoodRosa));
         } else if (userEmotion == "terrible") {
-            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} />);
+            setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} stepGoal={userStepGoal} />);
             setRosaImage(RandomElement(TerribleRosa));
         } else {
-            setRosaMessage(<DailyStepsMessage />)
+            setRosaMessage(<DailyStepsMessage stepGoal={userStepGoal}/>)
             setRosaImage(RandomElement(welcomeRosa));
         }
         let steps;
