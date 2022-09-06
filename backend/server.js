@@ -16,6 +16,8 @@ app.use('/api/workouts', require('./routes/workoutRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/conversations', require('./routes/conversationRoutes'));
 
+/* app.use('/admin', require())
+ */
 app.use(errorHandler);
 
 

@@ -26,10 +26,9 @@ const userSchema = mongoose.Schema({
     }, 
     userSecondaryGoal: {
         type: String,
-    }
-    /*  userRole: {
+    },
+    /* role: {
         type: String,
-        required: [true, 'Please select a user type -- either trainer or user.']
     } */
 }, {
     timestamp: true

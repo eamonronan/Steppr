@@ -67,6 +67,9 @@ const loginUser = asyncHandler(async (req, res) => {
             name: user.firstName,
             email: user.email,
             token: generateToken(user._id),
+            userPrimaryGoal : user.userPrimaryGoal,
+            userSecondaryGoal : user.userSecondaryGoal,
+            userStepCount: user.stepGoal
             //userRole: user.userRole,
         })
     } else {
@@ -90,6 +93,19 @@ const generateToken = (id) => {
         expiresIn: '14d',
     })
 }
+
+// check if user is Admin
+const isAdmin = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    if (user.role === "admin") {
+        return true;
+    } else {
+        return false;
+    }
+
+})
 
 
 // update user to add step count goal
@@ -133,10 +149,69 @@ const updateUserGoals = asyncHandler(async (req, res) => {
     }
 })
 
+// get userPrimaryGoal
+
+const getPrimaryGoal = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    let userPrimaryGoal;
+
+    if (!user) {
+        res.status(400);
+        throw new Error('Sorry, user not found!');
+    } else {
+        userPrimaryGoal = user.userPrimaryGoal;
+    }
+    
+    res.status(200).json(userPrimaryGoal);
+})
+
+// get userSecondaryGoal
+
+const getSecondaryGoal = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    let userSecondaryGoal;
+
+    if (!user) {
+        res.status(400);
+        throw new Error('Sorry, user not found!');
+    } else {
+        userSecondaryGoal = user.userSecondaryGoal;
+    }
+    
+    res.status(200).json(userSecondaryGoal);
+})
+
+// get userStepCount
+
+const getStepCount = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    let userStepCount;
+
+    if (!user) {
+        res.status(400);
+        throw new Error('Sorry, user not found!');
+    } else {
+        userStepCount = user.stepGoal;
+    }
+    
+    res.status(200).json(userStepCount);
+})
+
+
 module.exports = {
+    isAdmin,
     registerUser,
     loginUser,
     getMe,
     updateStepCount, 
     updateUserGoals, 
+    getPrimaryGoal, 
+    getSecondaryGoal, 
+    getStepCount
 }

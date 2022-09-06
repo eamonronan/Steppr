@@ -27,4 +27,16 @@ const protect = asyncHandler(async (req, res, next) => {
 
 })
 
-module.exports = { protect };
+const isAdmin = asyncHandler(async (req, res) => {
+    let id = req.params.id;
+    const user = await User.findById(id);
+
+    if (user.role === "admin") {
+        return true;
+    } else {
+        return false;
+    }
+
+})
+
+module.exports = { protect, isAdmin };

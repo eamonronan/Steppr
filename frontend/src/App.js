@@ -8,15 +8,19 @@ import Register from './pages/Register';
 import Rosa from './components/Rosa';
 import RosaDaily from './components/RosaDaily';
 import Resources from './pages/Resources';
+import AdminDashboard from './components/admin/Dashboard';
 
 function App() {
+
+
+
   return (
     <>
       <Router>
         <div className='container'>
           <Header />
           <Routes>
-
+            <Route path='/admin' element={<AdminDashboard/>}/>
             <Route path='/' element={<Dashboard />}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/register' element={<Register />}/>

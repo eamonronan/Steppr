@@ -10,9 +10,9 @@ const createWorkout = async (workoutData, token) => {
         },
     }
 
-    console.log(API_URL);
+    /* console.log(API_URL);
     console.log(workoutData);
-    console.log(config);
+    console.log(config); */
 
     const response = await axios.post(API_URL, workoutData, config);
 
