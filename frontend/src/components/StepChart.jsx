@@ -7,27 +7,30 @@ import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'rec
 
 
 
-function StepChart() {
+function StepChart( {stepArray, dayArray} ) {
 
     
-    const { user } = useSelector((state) => state.auth);
-    const { lastFiveConversations } = useSelector((state) => state.conversations);
-
-    let lastFiveStepArray = [];
-    let lastFiveDatesArray = [];
-
-    lastFiveStepArray = lastFiveConversations.map((conversation) => (
-        ([conversation.stepCount, conversation.createdAt])
-    ))
-
-    console.log(lastFiveStepArray);
-
-    /* console.log(lastFiveStepArray[0][0]); */
 
     const chartData = [{
-        name: 'Monday',
-        uv: 100
+        name: dayArray[0],
+        uv: stepArray[0]
     },
+    {
+        name: dayArray[1],
+        uv: stepArray[1]
+    }, 
+    {
+        name: dayArray[2],
+        uv: stepArray[2]
+    },
+    {
+        name: dayArray[3],
+        uv: stepArray[3]
+    },
+    {
+        name: dayArray[4],
+        uv: stepArray[4]
+    }
     ]
 
 
@@ -42,8 +45,6 @@ function StepChart() {
                 <Legend />
                 <Bar dataKey="uv" fill="#8884d8"/>
             </BarChart> 
-            <div>{lastFiveStepArray[0]}</div>
-
         </>
     )
 }
