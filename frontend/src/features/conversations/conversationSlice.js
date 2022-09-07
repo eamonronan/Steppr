@@ -4,6 +4,7 @@ import conversationService from './conversationService';
 
 const initialState = {
     conversations: [],
+    lastFiveConversations: [],
     isError: false,
     isSuccess: false, 
     isLoading: false, 
@@ -21,10 +22,21 @@ export const createUserConversation = createAsyncThunk('conversations/create', a
 }) 
 
 // fetch user conversations
-export const getConversations= createAsyncThunk('conversations/getAll', async (_, thunkAPI) => {
+export const getUserConversations= createAsyncThunk('conversations/getConversations', async (_, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token;
         return await conversationService.getUserConversations(token);
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+})
+
+// fetch last five user conversations
+export const getLastFiveConversations = createAsyncThunk('conversations/getLastFive', async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await conversationService.getLastFiveConversations(token);
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
         return thunkAPI.rejectWithValue(message);
@@ -53,15 +65,28 @@ export const conversationSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
             })
-            .addCase(getConversations.pending, (state) => {
+            .addCase(getUserConversations.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(getConversations.fulfilled, (state, action) => {
+            .addCase(getUserConversations.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true; 
                 state.conversations = action.payload;
             })
-            .addCase(getConversations.rejected, (state, action) => {
+            .addCase(getUserConversations.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getLastFiveConversations.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getLastFiveConversations.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true; 
+                state.lastFiveConversations = action.payload;
+            })
+            .addCase(getLastFiveConversations.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

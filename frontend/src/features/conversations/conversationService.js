@@ -11,9 +11,6 @@ const createUserConversation = async (conversationData, token) => {
         },
     }
 
-    console.log(API_URL);
-    console.log(conversationData);
-    console.log(config);
     const response = await axios.post(API_URL, conversationData, config);
     return response.data;
 }
@@ -30,10 +27,23 @@ const getUserConversations = async (token) => {
     return response.data;
 }
 
+// get last five user conversations with Rosa
+const getLastFiveConversations = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.get(API_URL + "/lastFive", config);
+
+    return response.data;
+}
+
 
 const conversationService = {
     createUserConversation,
-    getUserConversations
+    getUserConversations,
+    getLastFiveConversations
 }
 
 export default conversationService; 

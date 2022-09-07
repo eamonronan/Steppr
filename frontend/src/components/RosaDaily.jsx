@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createUserConversation } from '../features/conversations/conversationSlice';
+import { useEffect } from 'react';
 
 
 import Delayed from './Delayed';
@@ -48,17 +49,10 @@ function RosaDaily() {
 
     const [rosaImage, setRosaImage] = useState(randomRosa);
 
-    const [stepCount, setStepCount] = useState();
-
     const [rosaMessage, setRosaMessage] = useState(<WelcomeBack name={user.name} />);
 
-    const [conversationData, setConversationData] = useState({
-        user,
-        feeling: 'excellent',
-        stepCount: 10000,
-        primaryGoalRating: 1,
-        secondaryGoalRating: 5
-    });
+
+
 
     const [userOptions, setUserOptions] = useState(<div><UserResponseButton textInput="Fantastic!" onClick={() => handleUserEmotion("fantastic", userStepGoal)} />
         <UserResponseButton textInput="Excellent." onClick={() => handleUserEmotion("excellent", userStepGoal)} />
@@ -66,13 +60,17 @@ function RosaDaily() {
         <UserResponseButton textInput="Not so good today." onClick={() => handleUserEmotion("not so good", userStepGoal)} />
         <UserResponseButton textInput="Terrible." onClick={() => handleUserEmotion("terrible", userStepGoal)} /></div>)
 
-
+    const [conversationData, setConversationData] = useState();
 
     const submitConversation = () => {
-
         dispatch(createUserConversation({ conversationData }));
-        console.log(conversationData);
     }
+
+    useEffect(() => {
+        submitConversation({ conversationData });
+    }, [conversationData]);
+
+
 
 
 
@@ -130,9 +128,25 @@ function RosaDaily() {
 
     }
 
-    const handleSecondaryGoal = () => {
-        console.log('handle secondary goal');
-        submitConversation();
+    const handleSecondaryGoal = (userSecondaryGoal) => {
+        if (userSecondaryGoal === 1) {
+            setRosaImage(RandomElement(TerribleRosa));
+        } else if (userSecondaryGoal === 2) {
+            setRosaImage(RandomElement(NotSoGoodRosa));
+        } else if (userSecondaryGoal === 3) {
+            setRosaImage(RandomElement(GoodRosa));
+        } else if (userSecondaryGoal === 4) {
+            setRosaImage(RandomElement(ExcellentRosa));
+        } else if (userSecondaryGoal === 5) {
+            setRosaImage(RandomElement(FantasticRosa));
+        }
+        setConversationData({
+            user,
+            feeling: userDailyFeeling,
+            stepCount: userStepCountRating,
+            primaryGoalRating: userPrimaryGoalRating,
+            secondaryGoalRating: userSecondaryGoal,
+        })
         setRosaMessage(<div>Thanks for checking in with me today, {user.name}! I always enjoy our chats. Until tomorrow, feel free to explore some other areas of the Steppr app. Speak to you soon!</div>);
         setRosaImage(RandomElement(FarewellRosa));
         setUserOptions(<div><UserResponseButton textInput="View Resources" onClick={() => navigate('/resources')} />
@@ -142,28 +156,30 @@ function RosaDaily() {
     }
 
     const handlePrimaryGoal = (userPrimaryGoal) => {
-        console.log(userPrimaryGoal);
-        if (userPrimaryGoal == "1") {
+        userPrimaryGoalRating = userPrimaryGoal;
+        if (userPrimaryGoal === 1) {
             setRosaMessage("That's okay. We all have bad days sometimes. What's important is to keep on trying! What about your secondary goal, which is to " + userGoalTwo + ". On a scale of 1-5, how did that go today?");
             setRosaImage(RandomElement(TerribleRosa));
-        } else if (userPrimaryGoal == "2") {
+        } else if (userPrimaryGoal === 2) {
             setRosaMessage("Even though you maybe didn't do as well as you would have liked, I'm happy to hear that you are making progress. How about your secondary goal, which is to " + userGoalTwo + ". On a scale of 1-5, how did that go today?");
             setRosaImage(RandomElement(NotSoGoodRosa));
-        } else if (userPrimaryGoal == "3") {
+        } else if (userPrimaryGoal === 3) {
             setRosaMessage("Okay! Nice job. Little steps each day can add up in no time. Now, let's turn to your secondary goal, which is to " + userGoalTwo + ". On a scale of 1-5, how did that go today?");
             setRosaImage(RandomElement(GoodRosa));
-        } else if (userPrimaryGoal == "4") {
+        } else if (userPrimaryGoal === 4) {
             setRosaMessage("Very well done. I could learn a thing or two from you! How is your secondary goal, which is to " + userGoalTwo + ", going? On a scale of 1-5, how did you do on that today?");
             setRosaImage(RandomElement(ExcellentRosa));
-        } else if (userPrimaryGoal = "5") {
+        } else if (userPrimaryGoal === 5) {
             setRosaMessage("Amazing job! You inspire me. Truly! Now how about your secondary goal, which is to " + userGoalTwo + "? On a scale of 1-5, how did that go today?");
             setRosaImage(RandomElement(FantasticRosa));
         }
-        setUserOptions(<div><UserResponseButton textInput="1" onClick={handleSecondaryGoal} />
-            <UserResponseButton textInput="2" onClick={handleSecondaryGoal} />
-            <UserResponseButton textInput="3" onClick={handleSecondaryGoal} />
-            <UserResponseButton textInput="4" onClick={handleSecondaryGoal} />
-            <UserResponseButton textInput="5" onClick={handleSecondaryGoal} />
+        console.log(userPrimaryGoalRating);
+
+        setUserOptions(<div><UserResponseButton textInput="1" onClick={() => handleSecondaryGoal(1)} />
+            <UserResponseButton textInput="2" onClick={() => handleSecondaryGoal(2)} />
+            <UserResponseButton textInput="3" onClick={() => handleSecondaryGoal(3)} />
+            <UserResponseButton textInput="4" onClick={() => handleSecondaryGoal(4)} />
+            <UserResponseButton textInput="5" onClick={() => handleSecondaryGoal(5)} />
         </div>)
     }
 
@@ -172,15 +188,15 @@ function RosaDaily() {
     const handleSteps = (e, steps) => {
 
         e.preventDefault();
-        setStepCount(steps);
+        userStepCountRating = Number(steps);
         console.log(userGoalOne);
         setRosaImage(neutral_Rosa);
         setRosaMessage(<div> {steps} steps! Well done. Now let's see how you did on your primary goal, which is to {userGoalOne}. On a scale of 1-5, how much progress did you make toward it today?</div>);
-        setUserOptions(<div><UserResponseButton textInput="1" onClick={() => handlePrimaryGoal("1")} />
-            <UserResponseButton textInput="2" onClick={() => handlePrimaryGoal("2")} />
-            <UserResponseButton textInput="3" onClick={() => handlePrimaryGoal("3")} />
-            <UserResponseButton textInput="4" onClick={() => handlePrimaryGoal("4")} />
-            <UserResponseButton textInput="5" onClick={() => handlePrimaryGoal("5")} />
+        setUserOptions(<div><UserResponseButton textInput="1" onClick={() => handlePrimaryGoal(1)} />
+            <UserResponseButton textInput="2" onClick={() => handlePrimaryGoal(2)} />
+            <UserResponseButton textInput="3" onClick={() => handlePrimaryGoal(3)} />
+            <UserResponseButton textInput="4" onClick={() => handlePrimaryGoal(4)} />
+            <UserResponseButton textInput="5" onClick={() => handlePrimaryGoal(5)} />
         </div>
         )
     }

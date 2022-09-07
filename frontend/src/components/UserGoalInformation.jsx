@@ -3,40 +3,26 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Spinner from '../components/Spinner';
-import { getConversations } from '../features/conversations/conversationSlice';
 import { reset } from '../features/auth/authSlice';
 import ConversationItem from './ConversationItem';
+import { getUserConversations } from '../features/conversations/conversationSlice';
+import { getLastFiveConversations } from '../features/conversations/conversationSlice';
+import StepChart from './StepChart';
 
 
 
 function UserGoalInformation() {
-    const navigate = useNavigate();
+
     const dispatch = useDispatch();
-
     const { user } = useSelector((state) => state.auth);
-    const { conversations, isLoading, isError, message } = useSelector((state) => state.conversations);
-
-    // redirect to log-in page if user is not logged in
     useEffect(() => {
-        if (isError) {
-            console.log(message);
-        }
 
-        if (!user) {
-            navigate('/login');
-        }
+        dispatch(getLastFiveConversations());
 
-        dispatch(getConversations());
+    }, [])
 
-        return () => {
-            dispatch(reset());
-        }
+    const { lastFiveConversations, isError, message } = useSelector((state) => state.conversations);
 
-    }, [user, navigate, isError, message, dispatch])
-
-    if (isLoading) {
-        return <Spinner />;
-    }
 
     return (
         <>
@@ -45,17 +31,22 @@ function UserGoalInformation() {
             <h2>Primary goal: {user.userPrimaryGoal}</h2>
             <h2>Secondary goal: {user.userSecondaryGoal}</h2>
 
-            <section className="content">
-                {conversations.length > 0 ? (
-                    <div className="workouts">
-                        {conversations.map((conversation) => (
-                            <ConversationItem key={conversation._id} conversation={conversation} />
+            <StepChart />
+
+            {/* <section>
+               {lastFiveConversations.length > 0 ? (
+                    <div>
+                        {lastFiveConversations.map((conversation) => (
+                            
+
+                            <div key={conversation._id}>{conversation.createdAt}{conversation.feeling} {conversation.stepCount} {conversation.primaryGoalRating} {conversation.secondaryGoalRating} </div>
+
                         ))}
                     </div>
-                    ) : (<h3>You have not logged any conversations with Rosa yet! </h3>)}
-            </section>
+                ) : (<h3>No conversations with Rosa yet!</h3>)} 
+            </section> */}
         </>
-                )
+    )
 }
 
-                export default UserGoalInformation
+export default UserGoalInformation
