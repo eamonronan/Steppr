@@ -14,10 +14,10 @@ function Register() {
         email: '',
         password: '',
         confirmPassword: '',
-        //userRole: ''
+        userRole: ''
     })
 
-    const { firstName, lastName, email, password, confirmPassword } = formData;
+    const { firstName, lastName, email, password, confirmPassword, userRole } = formData;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -56,7 +56,7 @@ function Register() {
                 lastName,
                 email,
                 password,
-                //userRole
+                userRole
             }
             dispatch(register(userData));
         }
@@ -100,13 +100,13 @@ function Register() {
                         <input type='password' className='form-control' id='confirmPassword' name='confirmPassword' value={confirmPassword} placeholder='Confirm password'
                             onChange={onChange} />
                     </div>
-                    {/* <div className='form-group'>
+                   {/*  <div className='form-group'>
                         <input type='checkbox' className='form-control' id='trainer' name='trainer' value={userRole} /> Trainer
                     </div>
                     <div className='form-group'>
                         <input type='checkbox' className='form-control' id='enduser' name='enduser' value={userRole} /> User
-                    </div> */}
-                
+                    </div>
+                 */}
                     <div className='form-group'>
                         <button type='submit' className='btn btn-block'>Submit</button>
                     </div>

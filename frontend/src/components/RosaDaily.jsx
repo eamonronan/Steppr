@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createUserConversation } from '../features/conversations/conversationSlice';
+import { getMe } from '../features/auth/authSlice';
 import { useEffect } from 'react';
 
 
@@ -69,6 +70,11 @@ function RosaDaily() {
     useEffect(() => {
         submitConversation({ conversationData });
     }, [conversationData]);
+
+   /*   useEffect(() => {
+        dispatch(getMe( {user} ));
+    }, []) */
+
 
 
 

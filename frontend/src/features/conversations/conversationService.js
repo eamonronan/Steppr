@@ -34,7 +34,7 @@ const getLastFiveConversations = async (token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(API_URL + "/lastFive", config);
+    const response = await axios.get(API_URL + "lastFive", config);
 
     return response.data;
 }

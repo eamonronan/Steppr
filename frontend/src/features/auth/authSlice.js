@@ -53,6 +53,26 @@ export const updateUserGoals = createAsyncThunk('auth/updategoals', async (userD
     }
 })
 
+// get user info 
+export const getMe = createAsyncThunk('auth/me',  async(_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await authService.getMe(token);
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+})
+
+export const loginTrainer = createAsyncThunk('auth/logintrainer', async (user, thunkAPI) => {
+    try {
+        return await authService.loginTrainer(user);
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+})
+
 
 export const authSlice = createSlice({
     name: 'auth', 
@@ -120,6 +140,32 @@ export const authSlice = createSlice({
                 state.user = action.payload
             })
             .addCase(updateUserGoals.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError=true
+                state.message = action.payload
+            })
+            .addCase(getMe.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getMe.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            .addCase(getMe.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError=true
+                state.message = action.payload
+            })
+            .addCase(loginTrainer.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(loginTrainer.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            .addCase(loginTrainer.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError=true
                 state.message = action.payload

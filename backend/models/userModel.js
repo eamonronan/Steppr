@@ -27,9 +27,9 @@ const userSchema = mongoose.Schema({
     userSecondaryGoal: {
         type: String,
     },
-    /* role: {
+    userRole: {
         type: String,
-    } */
+    } 
 }, {
     timestamp: true
 })

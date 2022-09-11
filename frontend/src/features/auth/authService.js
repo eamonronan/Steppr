@@ -45,11 +45,33 @@ const login = async (userData) => {
     return response.data;
 }
 
+const loginTrainer = async (userData) => {
+    const response = await axios.post(API_URL + 'trainerlogin', userData);
+
+    if(response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+    }
+
+    return response.data;
+}
+
 const logout = () => {
     localStorage.removeItem('user');
 }
 
-/* const createUserConversation = async () */
+const getMe = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.get(API_URL + 'me', config);
+    if(response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+    }
+
+    return response.data;
+}
 
 const authService = {
     register, 
@@ -57,6 +79,8 @@ const authService = {
     login,
     updateStepCount,
     updateUserGoals,
+    getMe, 
+    loginTrainer
 }
 
 export default authService

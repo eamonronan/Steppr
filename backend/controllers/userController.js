@@ -36,6 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
         stepGoal: '',
         userPrimaryGoal: '',
         userSecondaryGoal: '',
+        userRole: 'user'
     })
 
     if (user) {
@@ -44,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
             name: user.firstName,
             email: user.email,
             token: generateToken(user._id),
-            //userRole: user.userRole,
+            userRole: user.userRole,
         })
     } else {
         res.status(400);
@@ -67,10 +68,10 @@ const loginUser = asyncHandler(async (req, res) => {
             name: user.firstName,
             email: user.email,
             token: generateToken(user._id),
-            userPrimaryGoal : user.userPrimaryGoal,
-            userSecondaryGoal : user.userSecondaryGoal,
-            userStepCount: user.stepGoal
-            //userRole: user.userRole,
+            userPrimaryGoal: user.userPrimaryGoal,
+            userSecondaryGoal: user.userSecondaryGoal,
+            userStepCount: user.stepGoal,
+            userRole: user.userRole,
         })
     } else {
         res.status(400);
@@ -84,8 +85,25 @@ const loginUser = asyncHandler(async (req, res) => {
 //@access           private
 
 const getMe = asyncHandler(async (req, res) => {
-    res.status(200).json(req.user);
+    let userToken;
+    userToken = req.headers.authorization.split(' ')[1];
+    const user = await User.findById(req.user._id);
+    if(!user) {
+        res.status(400)
+        throw new Error('Cannot find user!');
+    }
+    res.status(200).json({
+        _id: user.id,
+        name: user.firstName,
+        email: user.email,
+        token: userToken,
+        userPrimaryGoal: user.userPrimaryGoal,
+        userSecondaryGoal: user.userSecondaryGoal,
+        userStepCount: user.stepGoal,
+        userRole: user.userRole
+    });
 })
+
 
 // make JSON Web Token
 const generateToken = (id) => {
@@ -163,7 +181,7 @@ const getPrimaryGoal = asyncHandler(async (req, res) => {
     } else {
         userPrimaryGoal = user.userPrimaryGoal;
     }
-    
+
     res.status(200).json(userPrimaryGoal);
 })
 
@@ -181,7 +199,7 @@ const getSecondaryGoal = asyncHandler(async (req, res) => {
     } else {
         userSecondaryGoal = user.userSecondaryGoal;
     }
-    
+
     res.status(200).json(userSecondaryGoal);
 })
 
@@ -199,7 +217,7 @@ const getStepCount = asyncHandler(async (req, res) => {
     } else {
         userStepCount = user.stepGoal;
     }
-    
+
     res.status(200).json(userStepCount);
 })
 
@@ -207,13 +225,74 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
     User.find({}, (err, users) => {
         var userMap = {};
-    
-        users.forEach(function(user) {
-          userMap[user._id] = user;
+
+        users.forEach(function (user) {
+            userMap[user._id] = user;
         })
-    
-        res.send(userMap);  
-      });
+
+        res.send(userMap);
+    });
+})
+
+const registerTrainer = asyncHandler(async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+        res.status(400);
+        throw new Error('Please add all fields when registering');
+    }
+
+    // Check if user is already registered
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+        res.status(400);
+        throw new Error('User already exists');
+    }
+
+    // Password hashing
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Creating the user
+    const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        userRole: 'trainer'
+    })
+
+    if (user) {
+        res.status(201).json({
+            _id: user.id,
+            name: user.firstName,
+            email: user.email,
+            token: generateToken(user._id),
+            userRole: user.userRole,
+        })
+    } else {
+        res.status(400);
+        throw new Error('Invalid user data');
+    }
+})
+
+const loginTrainer = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    // Checking for user email
+    const user = await User.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+        res.json({
+            _id: user.id,
+            name: user.firstName,
+            email: user.email,
+            token: generateToken(user._id),
+            userRole: user.userRole,
+        })
+    } else {
+        res.status(400);
+        throw new Error('Sorry, invalid trainer credentials.');
+    }
 })
 
 
@@ -222,10 +301,12 @@ module.exports = {
     registerUser,
     loginUser,
     getMe,
-    updateStepCount, 
-    updateUserGoals, 
-    getPrimaryGoal, 
-    getSecondaryGoal, 
-    getStepCount, 
-    getAllUsers
+    updateStepCount,
+    updateUserGoals,
+    getPrimaryGoal,
+    getSecondaryGoal,
+    getStepCount,
+    getAllUsers, 
+    registerTrainer, 
+    loginTrainer
 }

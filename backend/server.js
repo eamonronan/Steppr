@@ -15,6 +15,7 @@ app.use(express.urlencoded( {limit: '30mb', extended: true} ));
 app.use('/api/workouts', require('./routes/workoutRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/conversations', require('./routes/conversationRoutes'));
+app.use('/api/messages', require('./routes/messageRoutes'));
 
 /* app.use('/admin', require())
  */

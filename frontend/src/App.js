@@ -10,6 +10,9 @@ import RosaDaily from './components/RosaDaily';
 import Resources from './pages/Resources';
 import AdminDashboard from './components/admin/Dashboard';
 import UserGoalInformation from './components/UserGoalInformation';
+import LoginTrainer from './pages/Trainer/LoginTrainer';
+import TrainerDashboard from './pages/Trainer/TrainerDashboard';
+import MessageForm from './components/MessageForm';
 
 function App() {
 
@@ -29,6 +32,9 @@ function App() {
             <Route path='/rosadaily' element={<RosaDaily />}/>
             <Route path='/resources' element={<Resources/>}/>
             <Route path='/usergoalinfo' element={<UserGoalInformation/>}/>
+            <Route path='/logintrainer' element={< LoginTrainer />}/>
+            <Route path='/trainer' element={< TrainerDashboard />}/>
+            <Route path='/messages' element={<MessageForm/>}/>
           
           </Routes>
         </div>

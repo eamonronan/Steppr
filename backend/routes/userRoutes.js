@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser, getMe, updateStepCount, updateUserGoals, getPrimaryGoal, getSecondaryGoal, getStepCount, getAllUsers} = require('../controllers/userController');
+const { registerUser, loginUser, getMe, updateStepCount, updateUserGoals, getPrimaryGoal, getSecondaryGoal, getStepCount, getAllUsers, registerTrainer, loginTrainer} = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
 const { isAdmin } = require('../middleware/authMiddleware');
 
@@ -16,6 +16,8 @@ router.get('/secondarygoal/:id', getSecondaryGoal);
 router.get('/stepcount/:id', getStepCount);
 
 router.get('/users', getAllUsers);
+router.post('/trainer', registerTrainer);
+router.post('/trainerlogin', loginTrainer);
 
 
 module.exports = router;

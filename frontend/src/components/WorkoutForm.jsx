@@ -5,8 +5,6 @@ import FileBase from 'react-file-base64';
 
 
 function WorkoutForm() {
-    //const [text, setText] = useState('');
-    //const [selectedFile, setSelectedFile] = useState('');
     const { user } = useSelector((state) => state.auth);
 
     const [workoutData, setWorkoutData] = useState({user: user, text: '', selectedFile: ''});
