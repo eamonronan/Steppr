@@ -26,9 +26,9 @@ const getUserMessages = async (token) => {
 }
 
 
-const messasgeService = {
+const messageService = {
     createMessage,
     getUserMessages
 }
 
-export default messasgeService;
+export default messageService;

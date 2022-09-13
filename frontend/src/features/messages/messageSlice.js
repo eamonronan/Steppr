@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import messasgeService from './messageService';
+import messageService from './messageService';
 
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 export const createMessage = createAsyncThunk('messages/create', async (messageData, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token;
-        return await messasgeService.createMessage(messageData, token)
+        return await messageService.createMessage(messageData, token)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
         return thunkAPI.rejectWithValue(message);
@@ -23,7 +23,7 @@ export const createMessage = createAsyncThunk('messages/create', async (messageD
 export const getUserMessages = createAsyncThunk('messages/get', async (_, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token;
-        return await messasgeService.getUserMessages(token)
+        return await messageService.getUserMessages(token)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
         return thunkAPI.rejectWithValue(message);

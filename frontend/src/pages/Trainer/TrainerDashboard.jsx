@@ -6,7 +6,7 @@ import MessageItem from '../../components/MessageItem';
 import { getUserMessages } from '../../features/messages/messageSlice';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {reset} from '../../features/auth/authSlice';
+import {reset} from '../../features/messages/messageSlice';
 import Spinner from '../../components/Spinner';
 
 function TrainerDashboard() {
@@ -27,7 +27,7 @@ function TrainerDashboard() {
       navigate('/logintrainer');
     }
 
-    dispatch(getUserMessages( user._id ));
+    dispatch(getUserMessages());
 
     return () => {
       dispatch(reset());
@@ -42,6 +42,7 @@ function TrainerDashboard() {
   return (
     <>
     <div>TrainerDashboard</div>
+    <div>Hello, {user.name}</div>
     <MessageForm />
     <section className="content">
       {messages.length > 0 ? (

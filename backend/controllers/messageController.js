@@ -25,7 +25,7 @@ const createMessage = asyncHandler(async (req, res) => {
 // private
 
 const getUserMessages = asyncHandler(async (req, res) => {
-    const recipient = req.user.id; 
+    const recipient = req.user._id; 
     if(!req.body) {
         res.status(400)
         throw new Error('Cannot find user!');

@@ -34,6 +34,7 @@ function StepChart( {dataArray, dayArray, arrayName} ) {
 
     return (
         <>
+            <div className='chartItem'>
             <div className="chartHeader">{chartName}</div>
             <BarChart className='chart' width={500} height={300} data={chartData}>
                 <CartesianGrid strokeDashArray = "3" />
@@ -43,6 +44,7 @@ function StepChart( {dataArray, dayArray, arrayName} ) {
                 <Legend />
                 <Bar dataKey="steps" fill="#000"/>
             </BarChart> 
+            </div>
         </>
     )
 }
