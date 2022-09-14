@@ -5,7 +5,5 @@ const { protect } = require('../middleware/authMiddleware');
 
 router.route('/').get(protect, getWorkouts).post(protect, setWorkout);
 router.route('/:id').delete(protect, deleteWorkout).put(protect, updateWorkout);
-/* router.route('/conversations').post(protect, createUserConversation); */
-
 
 module.exports = router;

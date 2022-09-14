@@ -6,6 +6,7 @@ import WorkoutItem from '../components/WorkoutItem';
 import Spinner from '../components/Spinner';
 import {getWorkouts} from '../features/workouts/workoutSlice';
 import {reset} from '../features/auth/authSlice';
+import { Fragment } from 'react';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -44,11 +45,11 @@ function Dashboard() {
     </section>
     <WorkoutForm />
 
-    <section className="content">
+    <section className="content" key={workouts._id}>
       {workouts.length > 0 ? (
         <div className="workouts">
           {workouts.map((workout) => (
-            <WorkoutItem key={workout._id} id={workout._id} workout={workout} />
+            <WorkoutItem key={workout._id} workout={workout} />
           ))}
 
         </div>

@@ -1,19 +1,23 @@
-import {useDispatch} from 'react-redux';
-import {deleteWorkout} from '../features/workouts/workoutSlice';
+import { useDispatch } from 'react-redux';
+import { deleteWorkout } from '../features/workouts/workoutSlice';
+import moment from 'moment';
 
 
-function WorkoutItem({ workout }) {
+function WorkoutItem({ workout } ) {
 
     const dispatch = useDispatch();
 
     return (
         <div className="workout">
             <div>
-                {new Date(workout.createdAt).toLocaleString('en-US')}
+                {moment(workout.createdAt).format("MMM Do YY")}
+                <div>
+                    {moment(workout.createdAt).fromNow()}
+                </div>
             </div>
             <h2>{workout.text}</h2>
-            <img src = {workout.selectedFile}/>
-            <button onClick={() => dispatch(deleteWorkout(workout._id))}className='close'>X</button>
+            {/* <img className="workoutImage" src={workout.selectedFile} /> */}
+            <button onClick={() => dispatch(deleteWorkout(workout._id))} className='close'>X</button>
         </div>
     )
 }

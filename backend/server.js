@@ -9,8 +9,8 @@ connectDB();
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded( {limit: '30mb', extended: true} ));
+app.use(express.json({limit: '50mb', extended: true}));
+app.use(express.urlencoded( {limit: '50mb', extended: true} ));
 
 app.use('/api/workouts', require('./routes/workoutRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
