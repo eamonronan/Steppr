@@ -82,8 +82,10 @@ function Rosa() {
         Additionally, you can rate your progress toward your primary and secondary user goals. I can also connect you to helpful resources on exercise and direct you toward
         your messages with your trainer. Elsewhere, you can log daily reflections on your workouts and your overall mood.
       </div>);
+      //setRosaImage
     } else {
       setRosaMessage(<div>No problem. Feel free to explore the rest of the app. Try clicking on the icons in the navigation bar to see more.</div>);
+      //setRosaImage
     }
 
   }
@@ -92,7 +94,7 @@ function Rosa() {
     userSecondary = userSecondaryGoal;
     dispatch(updateUserGoals({ ...user, userPrimaryGoal: userPrimary, userSecondaryGoal: userSecondary }));
     dispatch(getMe());
-    setRosaMessage(<div>Fantastic! Your secondary user goal is to <b>{userSecondaryGoal}</b>. Together, {user.name}, we can achieve these goals. Would you like to hear more about how Steppr works?</div>);
+    setRosaMessage(<div>Fantastic! Your secondary user goal is to <i>{userSecondaryGoal}</i>. Together, {user.name}, we can achieve these goals. Would you like to hear more about how Steppr works?</div>);
     setUserOptions(<div><UserResponseButton textInput="Yes" onClick={() => handleYesOrNo(true)} />
       <UserResponseButton textInput="No" onClick={() => handleYesOrNo(false)} /></div>
     )
@@ -102,7 +104,7 @@ function Rosa() {
   const handlePrimaryGoal = (userPrimaryGoal) => {
     userPrimary = userPrimaryGoal;
     //setRosaImage for all
-    setRosaMessage(<div>Noted! I will remember that your primary goal, after increasing overall step count, is to <b>{userPrimaryGoal}</b>. Next, let's select your second goal from the same list.</div>);
+    setRosaMessage(<div>Noted! I will remember that your primary goal, after increasing overall step count, is to <i>{userPrimaryGoal}</i>. Next, let's select your second goal from the same list.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handleSecondaryGoal("improve strength")} />
       <UserResponseButton textInput="Increase flexibility" onClick={() => handleSecondaryGoal("increase flexibility")} />
       <UserResponseButton textInput="Boost cardio endurance" onClick={() => handleSecondaryGoal("boost cardio endurance")} />
