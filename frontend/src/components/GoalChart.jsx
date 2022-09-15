@@ -1,5 +1,5 @@
 import React from 'react'
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 
@@ -34,6 +34,7 @@ function StepChart( {dataArray, dayArray, arrayName} ) {
 
     return (
         <>
+            <ResponsiveContainer className="responsiveContainer" width="100%" height="100%">
             <div className='chartItem'>
             <div className="chartHeader">{chartName}</div>
             <BarChart className='chart' width={500} height={300} data={chartData}>
@@ -45,6 +46,7 @@ function StepChart( {dataArray, dayArray, arrayName} ) {
                 <Bar dataKey="goal" fill="#000"/>
             </BarChart> 
             </div>
+            </ResponsiveContainer>
         </>
     )
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 
-function StepChart( {dataArray, dayArray, arrayName} ) {
+function StepChart({ dataArray, dayArray, arrayName }) {
 
-    
+
 
     const chartData = [{
         name: dayArray[0],
@@ -14,7 +14,7 @@ function StepChart( {dataArray, dayArray, arrayName} ) {
     {
         name: dayArray[1],
         steps: dataArray[1]
-    }, 
+    },
     {
         name: dayArray[2],
         steps: dataArray[2]
@@ -34,17 +34,19 @@ function StepChart( {dataArray, dayArray, arrayName} ) {
 
     return (
         <>
-            <div className='chartItem'>
-            <div className="chartHeader">{chartName}</div>
-            <BarChart className='chart' width={500} height={300} data={chartData}>
-                <CartesianGrid strokeDashArray = "3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="steps" fill="#000"/>
-            </BarChart> 
-            </div>
+            <ResponsiveContainer className="responsiveContainer" width="100%" height="100%">
+                <div className='chartItem'>
+                    <div className="chartHeader">{chartName}</div>
+                    <BarChart width={500} height={300} data={chartData}>
+                        <CartesianGrid strokeDashArray="3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="steps" fill="#000" />
+                    </BarChart>
+                </div>
+            </ResponsiveContainer>
         </>
     )
 }

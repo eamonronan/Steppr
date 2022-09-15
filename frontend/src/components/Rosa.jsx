@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import RosaDaily from './RosaDaily';
+import RosaInitial from './RosaInitial';
 
 function Rosa() {
 
@@ -9,11 +11,11 @@ function Rosa() {
 
     return (
         <>
-        {(user && user.userPrimaryGoal != null && user.userSecondaryGoal != null) ? (
+        {(user && user.userStepCount != null) ? (
 
-            <div>Rosa Daily</div>
+            <RosaDaily/>
         ) : (
-            <div>Rosa Initial </div>
+           <RosaInitial/>
         )}
         
         </>

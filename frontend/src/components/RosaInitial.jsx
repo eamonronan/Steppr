@@ -6,9 +6,18 @@ import { useEffect } from 'react';
 
 import Delayed from './Delayed';
 import WelcomeMessage from './RosaMessages/WelcomeMessage';
-import FeelingTodayMessage from './RosaMessages/FeelingTodayMesage';
+import InitialStepsMessage from './RosaMessages/InitialStepsMessage';
 import UserResponseButton from './UserResponses/UserResponseButton';
-import PositiveAndGoalSet from './RosaMessages/PositiveAndGoalSet';
+import RandomElement from './RandomElement';
+
+
+
+import FantasticRosa from './RosaImages/FantasticRosa';
+import GoodRosa from './RosaImages/GoodRosa';
+import NotSoGoodRosa from './RosaImages/NotSoGoodRosa';
+import TerribleRosa from './RosaImages/TerribleRosa';
+import FarewellRosa from './RosaImages/FarewellRosa';
+import ExcellentRosa from './RosaImages/ExcellentRosa';
 
 import neutral_Rosa from '../rosaimages/neutral_Rosa.PNG';
 import hi_rosa from '../rosaimages/hi_rosa.PNG';
@@ -18,7 +27,10 @@ import hello_sunshine from '../rosaimages/hello_sunshine_rosa.PNG';
 
 function Rosa() {
 
-  const [rosaImage, setRosaImage] = useState([]);
+  const welcomeRosa = [neutral_Rosa, hi_rosa, hi_rosa2, hello_sunshine];
+
+  const randomRosa = RandomElement(welcomeRosa);
+  const [rosaImage, setRosaImage] = useState(randomRosa);
 
   let userSteps = "";
   let userPrimary = "";
@@ -29,14 +41,32 @@ function Rosa() {
   const { user } = useSelector((state) => state.auth);
   const [rosaMessage, setRosaMessage] = useState(<WelcomeMessage name={user.name} />);
 
+
   useEffect(() => {
     dispatch(getMe());
   }, [])
 
 
-  const handleClick = () => {
-    console.log('Good clicked');
-    setRosaMessage(<PositiveAndGoalSet />);
+  const handleUserEmotion = (userEmotion) => {
+    if (userEmotion === "fantastic") {
+      setRosaMessage(<InitialStepsMessage dailyEmotion={userEmotion} />);
+      setRosaImage(RandomElement(FantasticRosa));
+    } else if (userEmotion == "excellent") {
+      setRosaMessage(<InitialStepsMessage dailyEmotion={userEmotion} />);
+      setRosaImage(RandomElement(ExcellentRosa));
+    } else if (userEmotion == "good") {
+      setRosaMessage(<InitialStepsMessage dailyEmotion={userEmotion} />)
+      setRosaImage(RandomElement(GoodRosa));
+    } else if (userEmotion == "not so good") {
+      setRosaMessage(<InitialStepsMessage dailyEmotion={userEmotion} />)
+      setRosaImage(RandomElement(NotSoGoodRosa));
+    } else if (userEmotion == "terrible") {
+      setRosaMessage(<InitialStepsMessage dailyEmotion={userEmotion} />);
+      setRosaImage(RandomElement(TerribleRosa));
+    } else {
+      setRosaMessage(<InitialStepsMessage />)
+      setRosaImage(RandomElement(welcomeRosa));
+    }
     setUserOptions(
       <div><UserResponseButton textInput="10,000" onClick={() => handleSteps(10000)} />
         <UserResponseButton textInput="8,000" onClick={() => handleSteps(8000)} />
@@ -62,7 +92,6 @@ function Rosa() {
     userSecondary = userSecondaryGoal;
     dispatch(updateUserGoals({ ...user, userPrimaryGoal: userPrimary, userSecondaryGoal: userSecondary }));
     dispatch(getMe());
-    console.log('Handle secondary goal clicked');
     setRosaMessage(<div>Fantastic! Your secondary user goal is to <b>{userSecondaryGoal}</b>. Together, {user.name}, we can achieve these goals. Would you like to hear more about how Steppr works?</div>);
     setUserOptions(<div><UserResponseButton textInput="Yes" onClick={() => handleYesOrNo(true)} />
       <UserResponseButton textInput="No" onClick={() => handleYesOrNo(false)} /></div>
@@ -72,6 +101,7 @@ function Rosa() {
 
   const handlePrimaryGoal = (userPrimaryGoal) => {
     userPrimary = userPrimaryGoal;
+    //setRosaImage for all
     setRosaMessage(<div>Noted! I will remember that your primary goal, after increasing overall step count, is to <b>{userPrimaryGoal}</b>. Next, let's select your second goal from the same list.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handleSecondaryGoal("improve strength")} />
       <UserResponseButton textInput="Increase flexibility" onClick={() => handleSecondaryGoal("increase flexibility")} />
@@ -85,21 +115,15 @@ function Rosa() {
 
 
   const [userOptions, setUserOptions] = useState(<div>
-    <UserResponseButton textInput="Fantastic!" onClick={handleClick} />
-    <UserResponseButton textInput="Good." onClick={handleClick} />
-    <UserResponseButton textInput="Not so good today." onClick={() => alert("Hello!")} />
-    <UserResponseButton textInput="Terrible." onClick={() => alert("Hello!")} /></div>)
-
-  const welcomeRosa = [neutral_Rosa, hi_rosa, hi_rosa2, hello_sunshine];
-
-  const randomRosa = welcomeRosa[Math.floor(Math.random() * welcomeRosa.length)];
+    <UserResponseButton textInput="Fantastic!" onClick={() => handleUserEmotion("fantastic")} />
+    <UserResponseButton textInput="Excellent" onClick={() => handleUserEmotion("excellent")} />
+    <UserResponseButton textInput="Good." onClick={() => handleUserEmotion("good")} />
+    <UserResponseButton textInput="Not so good today." onClick={() => handleUserEmotion("not so good")} />
+    <UserResponseButton textInput="Terrible." onClick={() => handleUserEmotion("terrible")} /></div>)
 
 
   const handleSteps = (textInput) => {
-    console.log('Steps clicked');
-    console.log(textInput);
     userSteps = textInput;
-    console.log(userSteps);
     dispatch(updateStepCount({ ...user, stepGoal: userSteps }));
     setRosaMessage(<div>{textInput} steps! Wow. I love the ambition. Next, we can decide on some secondary goals too. Along with your daily step count, you can set two other goals related to your health and fitness. Then, each day you can rate the progress you've made toward these goals. Select the first one from the choices on the right.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handlePrimaryGoal("improve strength")} />
@@ -118,7 +142,7 @@ function Rosa() {
   return (
     <div className='rosaContainer'>
       <div className='rosaItem'>
-        <img src={randomRosa} alt="Rosa expression" />
+        <img src={rosaImage} alt="Rosa expression" />
         <div className='rosaMessage'>
           {rosaMessage}
         </div>

@@ -10,12 +10,8 @@ import Delayed from './Delayed';
 import WelcomeBack from './RosaMessages/WelcomeBack';
 import RandomElement from './RandomElement';
 import DailyStepsMessage from './RosaMessages/DailyStepsMessage';
-import FeelingTodayMessage from './RosaMessages/FeelingTodayMesage';
 import UserResponseButton from './UserResponses/UserResponseButton';
-import PositiveAndGoalSet from './RosaMessages/PositiveAndGoalSet';
-import HandleUserEmotion from './HandleUserEmotion';
 
-import HandlePrimaryGoal from './HandlePrimaryGoal';
 
 import FantasticRosa from './RosaImages/FantasticRosa';
 import GoodRosa from './RosaImages/GoodRosa';
@@ -83,7 +79,6 @@ function RosaDaily() {
     const handleUserEmotion = (userEmotion, userStepGoal) => {
         userDailyFeeling = userEmotion;
         if (userEmotion === "fantastic") {
-            console.log(userStepGoal);
             setRosaMessage(<DailyStepsMessage dailyEmotion={userEmotion} stepGoal={userStepGoal} />);
             setRosaImage(RandomElement(FantasticRosa));
         } else if (userEmotion == "excellent") {

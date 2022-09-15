@@ -68,16 +68,23 @@ function UserGoalInformation() {
     return (
         <>
             <div className="goalHeader">
-            <h1>Goal Information for {user.name}</h1>
-            <h2>Daily step goal: {user.userStepCount}</h2>
-            <h2>Primary goal: {user.userPrimaryGoal}</h2>
-            <h2>Secondary goal: {user.userSecondaryGoal}</h2>
+                <h1>Goal Information for {user.name}</h1>
+                <h2>Daily step goal: {user.userStepCount}</h2>
+                <h2>Primary goal: {user.userPrimaryGoal}</h2>
+                <h2>Secondary goal: {user.userSecondaryGoal}</h2>
             </div>
-            <div className="charts">
-            <StepChart dataArray={lastFiveStepArray} dayArray={convertedDates} arrayName='STEPS' />
-            <GoalChart dataArray={lastFivePrimaryGoalArray} dayArray={convertedDates} arrayName={user.userPrimaryGoal} />
-            <GoalChart dataArray={lastFiveSecondaryGoalArray} dayArray={convertedDates} arrayName={user.userSecondaryGoal} />
-            </div>
+            {(lastFiveDayArray.length !== 0) ? (
+
+                <div className="charts">
+                    <StepChart dataArray={lastFiveStepArray} dayArray={convertedDates} arrayName='STEPS' />
+                    <GoalChart dataArray={lastFivePrimaryGoalArray} dayArray={convertedDates} arrayName={user.userPrimaryGoal} />
+                    <GoalChart dataArray={lastFiveSecondaryGoalArray} dayArray={convertedDates} arrayName={user.userSecondaryGoal} />
+                </div>
+            ) : (
+                <h3 className="noGoalInfoMessage">You have not logged any information on your goals with Rosa yet. Have a conversation with her to enable goal charts!</h3>
+            )
+            
+            }
         </>
     )
 }
