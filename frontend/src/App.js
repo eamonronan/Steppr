@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import RosaInitial from './components/RosaInitial';
 import RosaDaily from './components/RosaDaily';
 import Resources from './pages/Resources';
-import AdminDashboard from './components/admin/Dashboard';
+import AdminDashboard from './components/admin/AdminDashboard';
 import UserGoalInformation from './components/UserGoalInformation';
 import LoginTrainer from './pages/Trainer/LoginTrainer';
 import TrainerDashboard from './pages/Trainer/TrainerDashboard';

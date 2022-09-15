@@ -1,6 +1,6 @@
-import clapping_rosa from '../../images/clapping_rosa.PNG';
-import youdabest_rosa from '../../images/youdabest_rosa.PNG';
-import yourock_rosa from '../../images/yourock_rosa.PNG';
+import clapping_rosa from '../../rosaimages/clapping_rosa.PNG';
+import youdabest_rosa from '../../rosaimages/youdabest_rosa.PNG';
+import yourock_rosa from '../../rosaimages/yourock_rosa.PNG';
 
 
 

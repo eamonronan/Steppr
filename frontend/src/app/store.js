@@ -4,6 +4,7 @@ import workoutReducer from '../features/workouts/workoutSlice';
 import conversationReducer from '../features/conversations/conversationSlice';
 import goalReducer from '../features/goals/goalSlice';
 import messageReducer from '../features/messages/messageSlice';
+import adminReducer from '../features/admin/adminSlice';
 
 
 export const store = configureStore({
@@ -13,5 +14,6 @@ export const store = configureStore({
     workouts: workoutReducer,
     conversations: conversationReducer, 
     messages: messageReducer,
+    admin: adminReducer,
   },
 });

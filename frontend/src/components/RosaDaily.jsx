@@ -117,7 +117,7 @@ function RosaDaily() {
     }
 
 
-    const handleYesOrNo = (userYesOrNo) => {
+    /* const handleYesOrNo = (userYesOrNo) => {
         if (userYesOrNo) {
             setRosaMessage(<div>Great! Steppr aims to help you achieve your health and fitness goals. Each day, log in to the web app, and we can have a conversation together where we log your daily step count.
                 Additionally, you can rate your progress toward your primary and secondary user goals. I can also connect you to helpful resources on exercise and direct you toward
@@ -127,7 +127,7 @@ function RosaDaily() {
             setRosaMessage(<div>No problem. Feel free to explore the rest of the app. Try clicking on the icons in the navigation bar to see more.</div>);
         }
 
-    }
+    } */
 
     const handleSecondaryGoal = (userSecondaryGoal) => {
         if (userSecondaryGoal === 1) {

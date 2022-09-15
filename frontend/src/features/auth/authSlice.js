@@ -64,6 +64,7 @@ export const getMe = createAsyncThunk('auth/me',  async(_, thunkAPI) => {
     }
 })
 
+// log in trainer
 export const loginTrainer = createAsyncThunk('auth/logintrainer', async (user, thunkAPI) => {
     try {
         return await authService.loginTrainer(user);

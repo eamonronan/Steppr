@@ -18,11 +18,14 @@ import NotSoGoodRosa from './RosaImages/NotSoGoodRosa';
 import TerribleRosa from './RosaImages/TerribleRosa';
 import FarewellRosa from './RosaImages/FarewellRosa';
 import ExcellentRosa from './RosaImages/ExcellentRosa';
+import MotivationalRosa from './RosaImages/MotivationalRosa';
 
 import neutral_Rosa from '../rosaimages/neutral_Rosa.PNG';
 import hi_rosa from '../rosaimages/hi_rosa.PNG';
 import hi_rosa2 from '../rosaimages/hi_rosa2.PNG';
 import hello_sunshine from '../rosaimages/hello_sunshine_rosa.PNG';
+import stars_rosa from '../rosaimages/stars_rosa.PNG';
+import yesorno_rosa from '../rosaimages/yesorno_rosa.PNG';
 
 
 function Rosa() {
@@ -82,18 +85,21 @@ function Rosa() {
         Additionally, you can rate your progress toward your primary and secondary user goals. I can also connect you to helpful resources on exercise and direct you toward
         your messages with your trainer. Elsewhere, you can log daily reflections on your workouts and your overall mood.
       </div>);
-      //setRosaImage
     } else {
       setRosaMessage(<div>No problem. Feel free to explore the rest of the app. Try clicking on the icons in the navigation bar to see more.</div>);
-      //setRosaImage
     }
-
+    setRosaImage(neutral_Rosa);
+    setUserOptions(<div><UserResponseButton textInput="View Resources" onClick={() => navigate('/resources')} />
+            <UserResponseButton textInput="Message Trainer" onClick={() => console.log('Trainer')} />
+            <UserResponseButton textInput="Visit Workout Dashboard" onClick={() => navigate('/usergoalinfo')} />
+            <UserResponseButton textInput="Explore Other Users" onClick={() => console.log('Other Users')} /></div>)
   }
 
   const handleSecondaryGoal = (userSecondaryGoal) => {
     userSecondary = userSecondaryGoal;
     dispatch(updateUserGoals({ ...user, userPrimaryGoal: userPrimary, userSecondaryGoal: userSecondary }));
     dispatch(getMe());
+    setRosaImage(yesorno_rosa);
     setRosaMessage(<div>Fantastic! Your secondary user goal is to <i>{userSecondaryGoal}</i>. Together, {user.name}, we can achieve these goals. Would you like to hear more about how Steppr works?</div>);
     setUserOptions(<div><UserResponseButton textInput="Yes" onClick={() => handleYesOrNo(true)} />
       <UserResponseButton textInput="No" onClick={() => handleYesOrNo(false)} /></div>
@@ -103,7 +109,7 @@ function Rosa() {
 
   const handlePrimaryGoal = (userPrimaryGoal) => {
     userPrimary = userPrimaryGoal;
-    //setRosaImage for all
+    setRosaImage(stars_rosa);
     setRosaMessage(<div>Noted! I will remember that your primary goal, after increasing overall step count, is to <i>{userPrimaryGoal}</i>. Next, let's select your second goal from the same list.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handleSecondaryGoal("improve strength")} />
       <UserResponseButton textInput="Increase flexibility" onClick={() => handleSecondaryGoal("increase flexibility")} />
@@ -127,6 +133,7 @@ function Rosa() {
   const handleSteps = (textInput) => {
     userSteps = textInput;
     dispatch(updateStepCount({ ...user, stepGoal: userSteps }));
+    setRosaImage(RandomElement(MotivationalRosa));
     setRosaMessage(<div>{textInput} steps! Wow. I love the ambition. Next, we can decide on some secondary goals too. Along with your daily step count, you can set two other goals related to your health and fitness. Then, each day you can rate the progress you've made toward these goals. Select the first one from the choices on the right.</div>);
     setUserOptions(<div><UserResponseButton textInput="Improve strength" onClick={() => handlePrimaryGoal("improve strength")} />
       <UserResponseButton textInput="Increase flexibility" onClick={() => handlePrimaryGoal("increase flexibility")} />

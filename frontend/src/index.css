@@ -384,6 +384,42 @@ h3 {
   width: 75%;
 }
 
+.adminDashboardHeader {
+  background: rgb(0, 0, 0);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.adminUserButtons {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 0px 50px 0px 50px;
+}
+
+.btnadmin {
+  padding: 10px 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  appearance: button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 10px 0px 10px;
+}
+
 
 
 

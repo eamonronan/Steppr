@@ -15,7 +15,7 @@ router.get('/primarygoal/:id', protect, getPrimaryGoal);
 router.get('/secondarygoal/:id', getSecondaryGoal);
 router.get('/stepcount/:id', getStepCount);
 
-router.get('/users', getAllUsers);
+router.get('/getusers', getAllUsers);
 router.post('/trainer', registerTrainer);
 router.post('/trainerlogin', loginTrainer);
 

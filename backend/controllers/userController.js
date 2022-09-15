@@ -222,17 +222,11 @@ const getStepCount = asyncHandler(async (req, res) => {
 })
 
 const getAllUsers = asyncHandler(async (req, res) => {
-
-    User.find({}, (err, users) => {
-        var userMap = {};
-
-        users.forEach(function (user) {
-            userMap[user._id] = user;
-        })
-
-        res.send(userMap);
+    
+    const users = await User.find({userRole: 'user'});
+    res.status(200).json(users);
     });
-})
+
 
 const registerTrainer = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
